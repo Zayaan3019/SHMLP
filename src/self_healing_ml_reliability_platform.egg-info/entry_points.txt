@@ -1,2 +1,0 @@
-[console_scripts]
-shmlrp = shmlrp.__main__:main
