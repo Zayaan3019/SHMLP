@@ -1,0 +1,11 @@
+numpy>=1.26
+pandas>=2.1
+scikit-learn>=1.4
+pydantic>=2.7
+pydantic-settings>=2.2
+fastapi>=0.110
+uvicorn>=0.29
+joblib>=1.4
+
+[dev]
+pytest>=8.2
