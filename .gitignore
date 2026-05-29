@@ -5,4 +5,6 @@ __pycache__/
 .DS_Store
 .env
 artifacts/
+artifacts_debug/
+*.egg-info/
 *.log
