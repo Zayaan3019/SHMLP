@@ -1,0 +1,24 @@
+{
+  "run_id": "run_de1f70a043",
+  "status": "failed",
+  "timestamps": {
+    "started_at": "2026-05-29T13:08:49.591784+00:00",
+    "ended_at": "2026-05-29T13:08:49.608101+00:00"
+  },
+  "schema": {
+    "baseline": {
+      "is_valid": false,
+      "issues": [
+        "Expected categorical dtype for column: segment",
+        "Expected categorical dtype for column: channel"
+      ]
+    },
+    "current": {
+      "is_valid": false,
+      "issues": [
+        "Expected categorical dtype for column: segment",
+        "Expected categorical dtype for column: channel"
+      ]
+    }
+  }
+}

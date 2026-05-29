@@ -1,3 +1,20 @@
+Metadata-Version: 2.4
+Name: self-healing-ml-reliability-platform
+Version: 0.1.0
+Summary: Self-Healing ML Reliability Platform
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.26
+Requires-Dist: pandas>=2.1
+Requires-Dist: scikit-learn>=1.4
+Requires-Dist: pydantic>=2.7
+Requires-Dist: pydantic-settings>=2.2
+Requires-Dist: fastapi>=0.110
+Requires-Dist: uvicorn>=0.29
+Requires-Dist: joblib>=1.4
+Provides-Extra: dev
+Requires-Dist: pytest>=8.2; extra == "dev"
+
 # Self-Healing ML Reliability Platform (SHMLRP)
 
 A production-grade reference implementation of an end-to-end ML reliability system that detects data and performance issues, analyzes root causes, and self-heals through automated retraining and safe canary rollouts.
@@ -37,39 +54,10 @@ python -m shmlrp run --drift-prob 0.6 --sample-size 2000
 python -m shmlrp api --host 0.0.0.0 --port 8000
 ```
 
-### 4) Open the UI dashboard
-Navigate to:
-```
-http://127.0.0.1:8000/ui
-```
-
-The dashboard includes trend charts and run history derived from stored metrics.
-
-### 5) Run tests
+### 4) Run tests
 ```
 pytest -q
 ```
-
-## Free deployment (Render)
-
-This repo ships with a ready-to-use Render configuration in [render.yaml](self_healing_ml_reliability_platform/render.yaml).
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/USERNAME/REPO)
-
-1) Push this repository to GitHub.
-2) Create a free Render account.
-3) New > Web Service > Connect the repo.
-4) Render will auto-detect `render.yaml` and build with:
-  - `pip install -r requirements.txt && pip install -e .`
-  - `python -m shmlrp api --host 0.0.0.0 --port $PORT`
-5) After deploy, open `https://<your-service>.onrender.com/ui`.
-
-Note: Render free instances sleep on inactivity. The first request may take a few seconds to wake.
-
-## CI (GitHub Actions)
-
-Continuous integration runs on every push and pull request using the workflow in
-[.github/workflows/ci.yml](self_healing_ml_reliability_platform/.github/workflows/ci.yml).
 
 ## Outputs
 Artifacts are stored in `artifacts/` and include:

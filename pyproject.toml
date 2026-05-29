@@ -1,0 +1,42 @@
+[project]
+name = "self-healing-ml-reliability-platform"
+version = "0.1.0"
+description = "Self-Healing ML Reliability Platform"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "scikit-learn>=1.4",
+  "pydantic>=2.7",
+  "pydantic-settings>=2.2",
+  "fastapi>=0.110",
+  "uvicorn>=0.29",
+  "joblib>=1.4"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2"
+]
+
+[project.scripts]
+shmlrp = "shmlrp.__main__:main"
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+shmlrp = ["web/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
