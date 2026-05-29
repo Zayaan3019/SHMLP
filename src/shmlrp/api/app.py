@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import os
 from collections import deque
 from pathlib import Path
 
 from fastapi import FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -18,6 +20,18 @@ app = FastAPI(title="Self-Healing ML Reliability Platform")
 if WEB_DIR.exists():
     app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")
 config = load_config()
+
+_allow_all_cors = os.getenv("SHMLRP_ALLOW_ALL_CORS", "").lower() in {"1", "true", "yes"}
+_origins_env = os.getenv("SHMLRP_ALLOWED_ORIGINS", "")
+_allowed_origins = [origin.strip() for origin in _origins_env.split(",") if origin.strip()]
+
+if _allow_all_cors or _allowed_origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"] if _allow_all_cors else _allowed_origins,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 class RunRequest(BaseModel):
@@ -55,6 +69,38 @@ def favicon() -> Response:
     if icon_path.exists():
         return FileResponse(icon_path, media_type="image/svg+xml")
     return Response(status_code=204)
+
+
+@app.get("/styles.css", include_in_schema=False)
+def styles() -> Response:
+    css_path = WEB_DIR / "styles.css"
+    if css_path.exists():
+        return FileResponse(css_path, media_type="text/css")
+    return Response(status_code=404)
+
+
+@app.get("/app.js", include_in_schema=False)
+def app_js() -> Response:
+    js_path = WEB_DIR / "app.js"
+    if js_path.exists():
+        return FileResponse(js_path, media_type="application/javascript")
+    return Response(status_code=404)
+
+
+@app.get("/config.js", include_in_schema=False)
+def config_js() -> Response:
+    config_path = WEB_DIR / "config.js"
+    if config_path.exists():
+        return FileResponse(config_path, media_type="application/javascript")
+    return Response(status_code=404)
+
+
+@app.get("/favicon.svg", include_in_schema=False)
+def favicon_svg() -> Response:
+    icon_path = WEB_DIR / "favicon.svg"
+    if icon_path.exists():
+        return FileResponse(icon_path, media_type="image/svg+xml")
+    return Response(status_code=404)
 
 
 @app.get("/ui", include_in_schema=False)

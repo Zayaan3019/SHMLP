@@ -1,3 +1,6 @@
+const API_BASE = (window.SHMLRP_API_BASE || "").replace(/\/+$/, "");
+const buildUrl = (path) => (API_BASE ? `${API_BASE}${path}` : path);
+
 const state = {
   latest: null,
   running: false,
@@ -390,7 +393,7 @@ const updateUI = (report) => {
 
 const fetchLatest = async () => {
   try {
-    const response = await fetch("/latest");
+    const response = await fetch(buildUrl("/latest"));
     if (!response.ok) {
       setStatus("API: error", "alert");
       return;
@@ -407,7 +410,7 @@ const fetchLatest = async () => {
 
 const fetchHistory = async () => {
   try {
-    const response = await fetch("/metrics/recent?limit=20");
+    const response = await fetch(buildUrl("/metrics/recent?limit=20"));
     if (!response.ok) {
       return;
     }
@@ -426,7 +429,7 @@ const runPipeline = async (payload) => {
   runStatusEl.textContent = "Running";
   runLogEl.textContent = "Pipeline in progress...";
   try {
-    const response = await fetch("/run", {
+    const response = await fetch(buildUrl("/run"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
