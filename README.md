@@ -66,6 +66,38 @@ This repo ships with a ready-to-use Render configuration in [render.yaml](self_h
 
 Note: Render free instances sleep on inactivity. The first request may take a few seconds to wake.
 
+## Separate frontend and backend deployment
+
+This project supports deploying the backend and UI separately.
+
+### Backend (Render)
+Use the existing [render.yaml](self_healing_ml_reliability_platform/render.yaml). After deploy, copy the backend URL:
+```
+https://<your-service>.onrender.com
+```
+
+Set CORS to allow your frontend domain by adding an environment variable on Render:
+```
+SHMLRP_ALLOWED_ORIGINS=https://<your-frontend-domain>
+```
+
+### Frontend (Netlify / Vercel / GitHub Pages)
+Deploy the static UI from:
+```
+src/shmlrp/web
+```
+
+Before deploying, edit [src/shmlrp/web/config.js](self_healing_ml_reliability_platform/src/shmlrp/web/config.js)
+and set your backend URL:
+```
+window.SHMLRP_API_BASE = "https://<your-service>.onrender.com";
+```
+
+Then open:
+```
+https://<your-frontend-domain>
+```
+
 ## CI (GitHub Actions)
 
 Continuous integration runs on every push and pull request using the workflow in
